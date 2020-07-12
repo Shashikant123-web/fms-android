@@ -10,12 +10,14 @@ import {
   Image,
   TouchableOpacity,
   CheckBox,
+  Alert,
 } from "react-native";
-
 import { FontAwesome5 } from "@expo/vector-icons";
 import { globalStyles } from "../styles/global";
 import userDetailspng from "../assets/userDetails.png";
-import ImagePicker from "react-native-image-picker";
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
 
 class UserDetails extends Component {
   state = {
@@ -26,19 +28,9 @@ class UserDetails extends Component {
     error: "",
     radio1: false,
     radio2: false,
+    image: null,
   };
-  handleImage = () => {
-    const options = {
-      noData: true,
-    };
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.uri) {
-        this.setState({
-          photo: response,
-        });
-      }
-    });
-  };
+  handleImage = () => {};
   handleSubmit = () => {
     //   axios
     //     .post(
@@ -64,8 +56,38 @@ class UserDetails extends Component {
     //       console.log(error);
     //     });
   };
+  _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        this.setState({ image: result.uri });
+      }
+
+      console.log(result);
+    } catch (E) {
+      console.log(E);
+    }
+  };
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
+  };
+
   render() {
-    const { radio1, radio2, photo } = this.state;
+    const { radio1, radio2, image } = this.state;
     return (
       <ScrollView>
         <TouchableWithoutFeedback
@@ -74,20 +96,15 @@ class UserDetails extends Component {
           }}
         >
           <View style={globalStyles.container}>
-            {photo && (
+            <TouchableOpacity onPress={this._pickImage}>
               <Image
-                source={{ uri: photo.uri }}
-                style={{ width: 300, height: 300 }}
-              ></Image>
-            )}
-            <Image
-              source={userDetailspng}
-              style={{ width: 100, height: 100, marginTop: 30 }}
-            />
-            <TouchableOpacity onPress={this.handleImage}>
-              <Image
-                source={userDetailspng}
-                style={{ width: 100, height: 100, marginTop: 30 }}
+                source={image ? { uri: image } : userDetailspng}
+                style={{
+                  width: 100,
+                  height: 100,
+                  marginTop: 30,
+                  borderRadius: 100,
+                }}
               />
             </TouchableOpacity>
             <TextInput
