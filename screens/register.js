@@ -33,51 +33,51 @@ class Register extends Component {
   };
   handleNext = () => {
     const { password, confrmPwd, emailStatus, email } = this.state;
-    // this.props.navigation.navigate("details");
-    if (
-      emailStatus === true &&
-      password.length !== 0 &&
-      confrmPwd.length !== 0 &&
-      email.length !== 0
-    ) {
-      if (password !== confrmPwd) {
-        this.setState({
-          password: "",
-          confrmPwd: "",
-          error: "Password and conformPassword mis-match",
-        });
-      } else {
-        this.setState({ error: "" });
+    this.props.navigation.navigate("details");
+    // if (
+    //   emailStatus === true &&
+    //   password.length !== 0 &&
+    //   confrmPwd.length !== 0 &&
+    //   email.length !== 0
+    // ) {
+    //   if (password !== confrmPwd) {
+    //     this.setState({
+    //       password: "",
+    //       confrmPwd: "",
+    //       error: "Password and conformPassword mis-match",
+    //     });
+    //   } else {
+    //     this.setState({ error: "" });
 
-        //   axios
-        //     .post(
-        //       "/stskFmsApi/userLogin/createUL",
-        //       {
-        //         mob: this.state.mob,
-        //         email: this.state.email,
-        //         password: this.state.password,
-        //         userRoles: {
-        //           id: this.state.userRoles.id,
-        //         },
-        //       },
-        //       { headers: header }
-        //     )
-        //     .then((response) => {
-        //       console.log(response);
-        //       console.log(this.state);
-        //       this.props.history.push({
-        //         pathname: "/userDetails",
-        //       });
-        //     })
-        //     .catch((error) => {
-        //       console.log(error);
-        //     });
-      }
-    } else {
-      this.setState({
-        error: "Email required",
-      });
-    }
+    //   axios
+    //     .post(
+    //       "/stskFmsApi/userLogin/createUL",
+    //       {
+    //         mob: this.state.mob,
+    //         email: this.state.email,
+    //         password: this.state.password,
+    //         userRoles: {
+    //           id: this.state.userRoles.id,
+    //         },
+    //       },
+    //       { headers: header }
+    //     )
+    //     .then((response) => {
+    //       console.log(response);
+    //       console.log(this.state);
+    //       this.props.history.push({
+    //         pathname: "/userDetails",
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    //   }
+    // } else {
+    //   this.setState({
+    //     error: "Email required",
+    //   });
+    //}
   };
   render() {
     console.log(this.props.route.params.name);
@@ -153,3 +153,13 @@ class Register extends Component {
 }
 
 export default Register;
+
+// <Stack.Navigator
+//   screenOptions={{
+//     headerShown: false
+//   }}
+// >
+//   <Stack.Screen name="route-name" component={ScreenComponent} />
+// </Stack.Navigator>
+
+// <Stack.Screen options={{headerShown: false}} name="route-name" component={ScreenComponent} />

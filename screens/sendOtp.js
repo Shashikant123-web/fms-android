@@ -18,6 +18,7 @@ import {
   Keyboard,
 } from "react-native";
 import back from "../assets/back.png";
+import { color } from "react-native-reanimated";
 
 const header = {
   "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
@@ -87,6 +88,17 @@ class SendOtp extends Component {
                 justifyContent: "center",
               }}
             >
+              <Text
+                style={{
+                  color: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  top: -100,
+                  fontWeight: "bold",
+                }}
+              >
+                Sign in options
+              </Text>
               <View
                 style={{
                   flexDirection: "row",
@@ -96,15 +108,15 @@ class SendOtp extends Component {
                 }}
               >
                 <TouchableOpacity onPress={() => {}}>
-                  <Image source={facebook} style={{ width: 60, height: 60 }} />
+                  <Image source={facebook} style={{ width: 40, height: 40 }} />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {}}>
-                  <Image source={google} style={{ width: 60, height: 60 }} />
+                  <Image source={google} style={{ width: 40, height: 40 }} />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {}}>
-                  <FontAwesome5 name="user-alt" size={50} color="white" />
+                  <FontAwesome5 name="user-alt" size={40} color="white" />
                 </TouchableOpacity>
               </View>
             </View>

@@ -17,7 +17,7 @@ export const globalStyles = StyleSheet.create({
   textInput: {
     height: 35,
     borderBottomColor: "teal",
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     marginBottom: 30,
     width: "80%",
   },
@@ -33,7 +33,7 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    width: "50%",
+    width: "80%",
   },
   preregister: {
     backgroundColor: "#F0FFFF",

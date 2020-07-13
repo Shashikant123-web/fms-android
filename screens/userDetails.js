@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import {
   Text,
   TextInput,
@@ -19,17 +20,70 @@ import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 
+const header = {
+  "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
+};
+
 class UserDetails extends Component {
   state = {
-    photo: null,
-    email: "",
-    password: "",
-    confrmPwd: "",
     error: "",
     radio1: false,
     radio2: false,
     image: null,
+    jobTypes: [],
+    selectedUserType: "",
+    name: "",
+    email: "",
+    mob: "",
+    panNum: "",
+    aadharNum: "",
+    eduQual: "",
+    experience: "",
+    working: "",
+    jobUpdate: "",
+    address: "",
+    fresher: "",
+    prevcompanyName: "fresher",
+    prevdesignation: "fresher",
+    prevjobLocation: "fresher",
+    companyName: "",
+    designation: "",
+    noticePeriod: "",
+    noOfDays: "",
+    currentLocation: "",
+    negotiable: "",
+    upTo: "",
+    jobLocation: "",
+    userLogin: {
+      id: "",
+    },
+    Updates: ["Send Mail", "SMS", "Both", "None"],
   };
+
+  loadUserTypes() {
+    return (
+      this.state.jobTypes &&
+      this.state.jobTypes.map((job) => (
+        <Picker.Item key={job.id} label={job.name} value={job.name} />
+      ))
+    );
+  }
+
+  componentDidMount() {
+    this.getPermissionAsync();
+    axios
+      .get(
+        "http://stskfacilities.com:8081/stskFmsApi/jobTypes/getAllJobTypes",
+        { headers: header }
+      )
+      .then((res) => {
+        console.log(res.data);
+        console.log(res.data.data);
+        this.setState({
+          jobTypes: res.data.data,
+        });
+      });
+  }
   handleImage = () => {};
   handleSubmit = () => {
     //   axios
@@ -73,9 +127,6 @@ class UserDetails extends Component {
       console.log(E);
     }
   };
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
@@ -88,6 +139,8 @@ class UserDetails extends Component {
 
   render() {
     const { radio1, radio2, image } = this.state;
+    console.log(this.state.selectedUserType);
+
     return (
       <ScrollView>
         <TouchableWithoutFeedback
@@ -107,7 +160,7 @@ class UserDetails extends Component {
                 }}
               />
             </TouchableOpacity>
-            <TextInput
+            <Text
               style={{
                 color: "teal",
                 fontWeight: "bold",
@@ -116,7 +169,8 @@ class UserDetails extends Component {
               }}
             >
               Job seeker
-            </TextInput>
+            </Text>
+
             <TextInput
               style={globalStyles.textInput}
               placeholder="Enter full name"
@@ -144,19 +198,32 @@ class UserDetails extends Component {
             />
             <TextInput
               style={globalStyles.textInput}
-              placeholder="confirm password"
-              onChangeText={(val) => this.setState({ confrmPwd: val })}
-            />
-            <TextInput
-              style={globalStyles.textInput}
               placeholder="Education qualification"
               onChangeText={(val) => this.setState({ email: val })}
             />
             <TextInput
               style={globalStyles.textInput}
-              placeholder="Drop down"
-              onChangeText={(val) => this.setState({ password: val })}
+              placeholder="current location"
+              onChangeText={(val) => this.setState({ confrmPwd: val })}
             />
+
+            <Picker
+              selectedValue={this.state.selectedUserType}
+              style={{
+                width: "84%",
+                borderRadius: 10,
+                borderColor: "teal",
+                borderWidth: 1,
+              }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({
+                  ...this.state.selectedUserType,
+                  selectedUserType: itemValue,
+                })
+              }
+            >
+              {this.loadUserTypes()}
+            </Picker>
             <Text style={{ width: "80%", marginBottom: 20 }}>
               Are you Fresher
             </Text>
@@ -177,7 +244,7 @@ class UserDetails extends Component {
             <Text>{this.state.error}</Text>
             <View style={[globalStyles.button, { marginBottom: 50 }]}>
               <Text style={globalStyles.buttonText} onPress={this.handleSubmit}>
-                Submit
+                SUBMIT
               </Text>
             </View>
           </View>
