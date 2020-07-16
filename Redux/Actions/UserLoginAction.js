@@ -6,9 +6,6 @@ import {
   APPLIED_JOBS,
   SAVED_JOBS,
 } from "../ActionTypes/actionTypes";
-import { createBrowserHistory } from "history";
-import { withRouter, Redirect } from "react-router-dom";
-const history = createBrowserHistory();
 
 const header = {
   "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
@@ -29,7 +26,7 @@ export const userLoginAction = (userLogin) => {
     });
 
     axios
-      .get("/stskFmsApi/jobseeker/RecommendedJobsWithStatus/" + userId, {
+      .get("/jobseeker/RecommendedJobsWithStatus/" + userId, {
         headers: header,
       })
       .then((res) => {
@@ -43,7 +40,7 @@ export const userLoginAction = (userLogin) => {
         }
       });
     axios
-      .get("/stskFmsApi/jobseeker/getSavedJobsWithStatus/" + userId, {
+      .get("/jobseeker/getSavedJobsWithStatus/" + userId, {
         headers: header,
       })
       .then((res) => {
@@ -56,7 +53,7 @@ export const userLoginAction = (userLogin) => {
       });
 
     axios
-      .get("/stskFmsApi/jobseeker/newJobsWithStatus/" + userId, {
+      .get("/jobseeker/newJobsWithStatus/" + userId, {
         headers: header,
       })
       .then((res) => {
@@ -68,7 +65,7 @@ export const userLoginAction = (userLogin) => {
         }
       });
     axios
-      .get("/stskFmsApi/jobseeker/getById/" + userId, { headers: header })
+      .get("/jobseeker/getById/" + userId, { headers: header })
       .then((res) => {
         console.log(res.data);
         if (res.data.success === 1) {

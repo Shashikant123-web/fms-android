@@ -154,27 +154,5 @@ const sendotpReducer = (state = intialState, action) => {
   }
   return state;
 };
-// export const verify = (state = intialState, action) => {
-//   console.log(action.verify);
-//   switch (action.type) {
-//     case VERIFY_INIT:
-//       return {
-//         sendOtp: action.loading,
-//       };
-//     case VERIFY_SUCCESS:
-//       return {
-//         ...state,
-//         verify: action.project,
-//       };
-//     case VERIFY_FAILUR:
-//       return {
-//         ...state,
-//         verify: action.verifyOtp,
-//         verify: {
-//           loading: true,
-//         },
-//       };
-//   }
-//   return state;
-// };
+
 export default sendotpReducer;

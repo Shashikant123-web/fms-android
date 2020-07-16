@@ -13,6 +13,9 @@ import ForgotPwd from "../screens/forgotPwd";
 import ChangePwd from "../screens/changePwd";
 import Home from "../screens/dashboard/DrawerNavigation";
 import Help from "../screens/dashboard/Help";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://stskfacilities.com:8081/stskFmsApi";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();

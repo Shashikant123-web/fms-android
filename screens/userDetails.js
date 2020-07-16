@@ -18,6 +18,8 @@ import { globalStyles } from "../styles/global";
 import userDetailspng from "../assets/userDetails.png";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
+import { connect } from "react-redux";
+
 import * as Permissions from "expo-permissions";
 
 const header = {
@@ -71,18 +73,26 @@ class UserDetails extends Component {
 
   componentDidMount() {
     this.getPermissionAsync();
+
     axios
-      .get(
-        "http://stskfacilities.com:8081/stskFmsApi/jobTypes/getAllJobTypes",
-        { headers: header }
-      )
+      .get("/userLogin/getByMob/" + this.props.details.mobileNumber, {
+        headers: header,
+      })
       .then((res) => {
         console.log(res.data);
-        console.log(res.data.data);
         this.setState({
-          jobTypes: res.data.data,
+          userId: res.data.data.id,
+          email: res.data.data.email,
         });
       });
+
+    axios.get("/jobTypes/getAllJobTypes", { headers: header }).then((res) => {
+      console.log(res.data);
+      console.log(res.data.data);
+      this.setState({
+        jobTypes: res.data.data,
+      });
+    });
   }
   handleImage = () => {};
   handleSubmit = () => {
@@ -139,9 +149,8 @@ class UserDetails extends Component {
   };
 
   render() {
-    const { radio1, radio2, image } = this.state;
+    const { radio1, radio2, image, mobileNumber, email } = this.state;
     console.log(this.state);
-
     return (
       <ScrollView>
         <TouchableWithoutFeedback
@@ -181,11 +190,14 @@ class UserDetails extends Component {
               style={globalStyles.textInput}
               placeholder="Enter email "
               onChangeText={(val) => this.setState({ email: val })}
+              value={email}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="Phone number"
+              keyboardType="numeric"
               onChangeText={(val) => this.setState({ mob: val })}
+              value={mobileNumber}
             />
             <TextInput
               style={globalStyles.textInput}
@@ -253,5 +265,9 @@ class UserDetails extends Component {
     );
   }
 }
-
-export default UserDetails;
+const mapStateToProps = (state) => {
+  return {
+    details: state.userLogin.userLogin,
+  };
+};
+export default connect(mapStateToProps)(UserDetails);

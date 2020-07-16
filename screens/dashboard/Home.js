@@ -7,12 +7,27 @@ import {
   FontAwesome5,
 } from "@expo/vector-icons";
 import backReverse from "../../assets/backReverse.png";
-
+import { connect } from "react-redux";
 import { globalStyles } from "../../styles/global";
 import { TouchableOpacity } from "react-native-gesture-handler";
 class Home extends Component {
   state = {};
   render() {
+    const {
+      mobileNumber,
+      userId,
+      recomendedJobs,
+      savedJobs,
+      newJobs,
+      appliedJobs,
+      payLoad: {
+        details: { name, email, mob, experience, eduQual },
+      },
+    } = this.props.dashboard;
+    const saved = savedJobs.length;
+    const recom = recomendedJobs.length;
+    const newJob = newJobs.length;
+    const applid = appliedJobs.length;
     return (
       <View style={globalStyles.container}>
         <ImageBackground style={globalStyles.image} source={backReverse}>
@@ -38,18 +53,18 @@ class Home extends Component {
               </View>
 
               <View style={{ marginLeft: 10 }}>
-                <Text style={styles.name}>Shashikant Subhas </Text>
+                <Text style={styles.name}>{name}</Text>
                 <Text style={styles.userInfo}>Security Guard </Text>
               </View>
             </View>
             <View>
               <View style={styles.logo}>
                 <MaterialIcons name="email" size={27} color="white" />
-                <Text style={styles.LogoText}>Email</Text>
+                <Text style={styles.LogoText}>{email}</Text>
               </View>
               <View style={styles.logo}>
                 <Feather name="phone-call" size={24} color="white" />
-                <Text style={styles.LogoText}>Email</Text>
+                <Text style={styles.LogoText}>{mob}</Text>
               </View>
               <View style={styles.logo}>
                 <MaterialCommunityIcons
@@ -57,15 +72,15 @@ class Home extends Component {
                   size={30}
                   color="white"
                 />
-                <Text style={styles.LogoText}>Email</Text>
+                <Text style={styles.LogoText}>{experience}</Text>
               </View>
               <View style={styles.logo}>
                 <FontAwesome5 name="book-open" size={20} color="white" />
-                <Text style={styles.LogoText}>Email</Text>
+                <Text style={styles.LogoText}>{eduQual}</Text>
               </View>
               <View style={styles.logo}>
                 <MaterialIcons name="location-on" size={30} color="white" />
-                <Text style={styles.LogoText}>Email</Text>
+                <Text style={styles.LogoText}>Bengaluru</Text>
               </View>
             </View>
             <View style={styles.card}>
@@ -81,7 +96,7 @@ class Home extends Component {
                     left: "40%",
                   }}
                 >
-                  35
+                  {recom}
                 </Text>
               </View>
               <View>
@@ -117,19 +132,19 @@ class Home extends Component {
             >
               <View style={styles.appliedNewSaved}>
                 <TouchableOpacity style={globalStyles.centerItem}>
-                  <Text style={styles.appliedNewSavedNumber}>12</Text>
+                  <Text style={styles.appliedNewSavedNumber}>{applid}</Text>
                   <Text style={styles.appliedNewSavedText}>Applied</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.appliedNewSaved}>
                 <TouchableOpacity style={globalStyles.centerItem}>
-                  <Text style={styles.appliedNewSavedNumber}>10</Text>
+                  <Text style={styles.appliedNewSavedNumber}>{saved}</Text>
                   <Text style={styles.appliedNewSavedText}>Saved</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.appliedNewSaved}>
                 <TouchableOpacity style={globalStyles.centerItem}>
-                  <Text style={styles.appliedNewSavedNumber}>13</Text>
+                  <Text style={styles.appliedNewSavedNumber}>{newJob}</Text>
                   <Text style={styles.appliedNewSavedText}>New jobs</Text>
                 </TouchableOpacity>
               </View>
@@ -140,6 +155,14 @@ class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    dashboard: state.userLogin.userLogin,
+  };
+};
+
+export default connect(mapStateToProps)(Home);
 const styles = StyleSheet.create({
   headerContent: {
     alignItems: "center",
@@ -237,8 +260,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-export default Home;
 
 // <View>
 // <View style={[styles.card, { width: 60 }]}>

@@ -43,7 +43,7 @@ class SendOtp extends Component {
     // });
     // axios
     //   .post(
-    //     "http://stskfacilities.com:8081/stskFmsApi/otpServices/sendOtpBySMS",
+    //     "/otpServices/sendOtpBySMS",
     //     this.state,
     //     {
     //       headers: header,

@@ -9,6 +9,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Help from "./Help";
 import Home from "./Home";
 import { Entypo, AntDesign } from "@expo/vector-icons";
+import SendOtp from "../sendOtp";
 const HomeStack = createStackNavigator();
 const HelpStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -82,13 +83,14 @@ class DrawerNavigation extends Component {
             component={HomeStackScreen}
           />
           <Drawer.Screen
+            // onPress={() => localStorage.clear()}
             options={{
               drawerIcon: (config) => (
                 <Entypo name="help" size={24} color="black" />
               ),
             }}
-            name="Help"
-            component={Help}
+            name="Logout"
+            component={SendOtp}
           />
         </Drawer.Navigator>
       </NavigationContainer>
