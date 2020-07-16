@@ -50,4 +50,8 @@ export const globalStyles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
+  centerItem: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
