@@ -19,32 +19,26 @@ class Preregisteration extends Component {
   state = {
     userRoless: [],
     mobileNumber: "",
-    userRoles: {
-      id: "",
-    },
   };
   componentDidMount() {
-    axios
-      .get(
-        "http://stskfacilities.com:8081/stskFmsApi/userRoles/getAllUserRoles",
-        { headers: header }
-      )
-      .then((res) => {
-        console.log(res.data.data);
-        this.setState({
-          userRoless: res.data.data,
-        });
+    axios.get("/userRoles/getAllUserRoles", { headers: header }).then((res) => {
+      console.log(res.data.data);
+      this.setState({
+        userRoless: res.data.data,
       });
+    });
   }
   render() {
     const { userRoless } = this.state;
-    const user = this.state.userRoless.map((item, index) => {
-      return (
-        <Text style={globalStyles.preregister} key={index}>
-          {item.name}
-        </Text>
-      );
-    });
+    const user =
+      userRoless &&
+      userRoless.map((item, index) => {
+        return (
+          <Text style={globalStyles.preregister} key={index}>
+            {item.name}
+          </Text>
+        );
+      });
     return (
       <ImageBackground style={globalStyles.container} source={backRev}>
         <FlatList
@@ -57,10 +51,13 @@ class Preregisteration extends Component {
                 { flexDirection: "row", padding: 25 },
               ]}
               onPress={() =>
-                this.props.navigation.navigate("user registration", item)
+                this.props.navigation.navigate(
+                  "user registration",
+                  item,
+                  this.state
+                )
               }
             >
-            
               <Text style={globalStyles.preregister}>{item.name}</Text>
             </TouchableOpacity>
           )}

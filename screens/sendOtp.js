@@ -18,7 +18,8 @@ import {
   Keyboard,
 } from "react-native";
 import back from "../assets/back.png";
-import { color } from "react-native-reanimated";
+import { connect } from "react-redux";
+import { SEND_OTP } from "../Redux/ActionTypes/actionTypes";
 
 const header = {
   "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
@@ -29,15 +30,9 @@ class SendOtp extends Component {
     countryCode: "91",
     otp: "",
   };
-  handleChange = (newText) => {
-    this.setState({
-      mobileNumber: newText,
-    });
-  };
   handleSend = () => {
-    //navigation.navigate("ReviewDetails");
     this.props.navigation.navigate("verify");
-
+    this.props.Number(this.state);
     // this.setState({
     //   otp: `otp sent to ${this.state.mobileNumber}`,
     // });
@@ -58,7 +53,6 @@ class SendOtp extends Component {
     //   });
   };
   render() {
-    console.log(this.props);
     return (
       <TouchableWithoutFeedback
         onPress={() => {
@@ -70,11 +64,11 @@ class SendOtp extends Component {
             <View style={globalStyles.center}>
               <TextInput
                 style={globalStyles.textInput}
-                onChangeText={this.handleChange}
-                keyboardType="numeric"
+                Keyboard="numeric"
                 placeholder="Enter mobile number"
+                value={this.state.mobileNumber}
+                onChangeText={(val) => this.setState({ mobileNumber: val })}
               />
-              <Text>{this.state.otp}</Text>
               <View style={globalStyles.button}>
                 <Text style={globalStyles.buttonText} onPress={this.handleSend}>
                   Send otp
@@ -130,29 +124,9 @@ class SendOtp extends Component {
     );
   }
 }
-export default SendOtp;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   container1: {
-//     width: "100%",
-//     height: "100%",
-//   },
-//   container2: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   sendOtp: {
-//     elevation: 8,
-//     backgroundColor: "#009688",
-//     borderRadius: 10,
-//     paddingVertical: 10,
-//     paddingHorizontal: 12,
-//   },
-// });
+const mapDispatchToProps = (dispatch) => {
+  return {
+    Number: (mobileNumber) => dispatch({ type: SEND_OTP, mobileNumber }),
+  };
+};
+export default connect(null, mapDispatchToProps)(SendOtp);

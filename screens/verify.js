@@ -3,13 +3,25 @@ import { Text, View, TextInput, ImageBackground, Button } from "react-native";
 // import Button from "react-native-button";
 import back from "../assets/back.png";
 import { globalStyles } from "../styles/global";
+import { connect } from "react-redux";
+import { userLoginAction } from "../Redux/Actions/UserLoginAction";
 
 class Verify extends Component {
-  state = {};
+  state = {
+    countryCode: this.props.sendOtp.countryCode,
+    mobileNumber: this.props.sendOtp.mobileNumber,
+    email1: "",
+    userId: "",
+    error: "",
+    otp: "",
+    userId: "",
+    loading: false,
+  };
   handleVerify = () => {
-    this.props.navigation.navigate("welcome");
+    this.props.navigation.navigate("preRegister");
   };
   render() {
+    console.log(this.state);
     return (
       <View style={globalStyles.container}>
         <ImageBackground style={globalStyles.image} source={back}>
@@ -31,5 +43,15 @@ class Verify extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    sendOtp: state.SendOtp.SendOtp.mobileNumber,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    userLoginAction: (UserLogin) => dispatch(userLoginAction(UserLogin)),
+  };
+};
 
-export default Verify;
+export default connect(mapStateToProps, mapDispatchToProps)(Verify);

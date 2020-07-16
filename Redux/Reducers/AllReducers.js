@@ -58,9 +58,7 @@ const sendotpReducer = (state = intialState, action) => {
       return {
         ...state,
         SendOtp: {
-          ...state.SendOtp,
-          loading: action.loading,
-          mobileNumber: action.project.mobileNumber,
+          mobileNumber: action.mobileNumber,
         },
       };
     case VERIFY_INIT:

@@ -6,10 +6,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ImageBackground,
+  Alert,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 import backReverse from "../assets/backRev.png";
 import { Ionicons } from "@expo/vector-icons";
+import { connect } from "react-redux";
 
 class Register extends Component {
   state = {
@@ -17,7 +19,9 @@ class Register extends Component {
     password: "",
     confrmPwd: "",
     error: "",
-    emailStatus: false,
+    mob: this.props.sendOtp.mobileNumber,
+    mobileNumber: this.props.sendOtp.mobileNumber,
+    id: this.props.route.params.id,
     eye1: false,
     eye2: false,
   };
@@ -28,60 +32,52 @@ class Register extends Component {
       this.setState({ email: text, error: "Email is Not Correct" });
       return false;
     } else {
-      this.setState({ email: text, error: "", emailStatus: true });
+      this.setState({ email: text, error: "" });
     }
   };
   handleNext = () => {
-    const { password, confrmPwd, emailStatus, email } = this.state;
-    this.props.navigation.navigate("details");
-    // if (
-    //   emailStatus === true &&
-    //   password.length !== 0 &&
-    //   confrmPwd.length !== 0 &&
-    //   email.length !== 0
-    // ) {
-    //   if (password !== confrmPwd) {
-    //     this.setState({
-    //       password: "",
-    //       confrmPwd: "",
-    //       error: "Password and conformPassword mis-match",
-    //     });
-    //   } else {
-    //     this.setState({ error: "" });
-
-    //   axios
-    //     .post(
-    //       "/stskFmsApi/userLogin/createUL",
-    //       {
-    //         mob: this.state.mob,
-    //         email: this.state.email,
-    //         password: this.state.password,
-    //         userRoles: {
-    //           id: this.state.userRoles.id,
-    //         },
-    //       },
-    //       { headers: header }
-    //     )
-    //     .then((response) => {
-    //       console.log(response);
-    //       console.log(this.state);
-    //       this.props.history.push({
-    //         pathname: "/userDetails",
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    //   }
-    // } else {
-    //   this.setState({
-    //     error: "Email required",
-    //   });
-    //}
+    const { password, confrmPwd, email } = this.state;
+    console.log(this.state);
+    // this.props.navigation.navigate("details");
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(email) === false) {
+      this.setState({ error: "Email is Not Correct" });
+    } else {
+      this.setState({ error: "" });
+      if (password !== confrmPwd) {
+        this.setState({
+          password: "",
+          confrmPwd: "",
+          error: "Password and conformPassword mis-match",
+        });
+      } else {
+        this.setState({ error: "" });
+        axios
+          .post(
+            "/stskFmsApi/userLogin/createUL",
+            {
+              mob: this.state.mob,
+              email: this.state.email,
+              password: this.state.password,
+              userRoles: {
+                id: this.state.userRoles.id,
+              },
+            },
+            { headers: header }
+          )
+          .then((response) => {
+            this.props.navigation.navigate("details");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    }
   };
   render() {
-    console.log(this.props.route.params.name);
     const { eye1, eye2 } = this.state;
+    console.log(this.props);
+    console.log(this.state);
     return (
       <TouchableWithoutFeedback
         onPress={() => {
@@ -90,7 +86,7 @@ class Register extends Component {
       >
         <ImageBackground style={globalStyles.image} source={backReverse}>
           <View style={globalStyles.container}>
-            <TextInput
+            <Text
               style={{
                 color: "teal",
                 fontWeight: "bold",
@@ -99,11 +95,11 @@ class Register extends Component {
               }}
             >
               {this.props.route.params.name}
-            </TextInput>
+            </Text>
             <TextInput
               style={globalStyles.textInput}
               placeholder="Email id / User Id"
-              onChangeText={(text) => this.validate(text)}
+              onChangeText={(text) => this.setState({ email: text })}
               value={this.state.email}
             />
             <View style={[globalStyles.textInput, { flexDirection: "row" }]}>
@@ -112,6 +108,7 @@ class Register extends Component {
                 placeholder="Password"
                 secureTextEntry={eye1 ? false : true}
                 onChangeText={(val) => this.setState({ password: val })}
+                value={this.state.password}
               />
               <Ionicons
                 style={{ marginLeft: "10%" }}
@@ -127,6 +124,7 @@ class Register extends Component {
                 placeholder="confirm password"
                 secureTextEntry={eye2 ? false : true}
                 onChangeText={(val) => this.setState({ confrmPwd: val })}
+                value={this.state.confrmPwd}
               />
               <Ionicons
                 style={{ marginLeft: "10%" }}
@@ -151,8 +149,13 @@ class Register extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    sendOtp: state.SendOtp.SendOtp.mobileNumber,
+  };
+};
 
-export default Register;
+export default connect(mapStateToProps)(Register);
 
 // <Stack.Navigator
 //   screenOptions={{

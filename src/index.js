@@ -26,7 +26,7 @@ class Index extends React.Component {
         <Stack.Navigator>
           <Stack.Screen name="SendOtp" component={SendOtp} />
           <Stack.Screen name="verify" component={Verify} />
-          <Stack.Screen name="welcome" component={Preregisteration} />
+          <Stack.Screen name="preRegister" component={Preregisteration} />
           <Stack.Screen name="user registration" component={Register} />
           <Stack.Screen name="details" component={UserDetails} />
           <Stack.Screen name="user login" component={UserLogin} />
