@@ -115,8 +115,12 @@ class SendOtp extends Component {
                   <Image source={google} style={{ width: 40, height: 40 }} />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {}}>
-                  <FontAwesome5 name="user-alt" size={40} color="white" />
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate("user login");
+                  }}
+                >
+                  <FontAwesome5 name="user-alt" size={37} color="white" />
                 </TouchableOpacity>
               </View>
             </View>

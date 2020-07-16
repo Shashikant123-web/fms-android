@@ -64,7 +64,7 @@ class UserDetails extends Component {
     return (
       this.state.jobTypes &&
       this.state.jobTypes.map((job) => (
-        <Picker.Item key={job.id} label={job.name} value={job.name} />
+        <Picker.Item key={job.id} label={job.name} value={job.id} />
       ))
     );
   }
@@ -86,6 +86,7 @@ class UserDetails extends Component {
   }
   handleImage = () => {};
   handleSubmit = () => {
+    console.log(this.state);
     //   axios
     //     .post(
     //       "/stskFmsApi/userLogin/createUL",
@@ -139,7 +140,7 @@ class UserDetails extends Component {
 
   render() {
     const { radio1, radio2, image } = this.state;
-    console.log(this.state.selectedUserType);
+    console.log(this.state);
 
     return (
       <ScrollView>
@@ -174,37 +175,37 @@ class UserDetails extends Component {
             <TextInput
               style={globalStyles.textInput}
               placeholder="Enter full name"
-              onChangeText={(val) => this.setState({ email: val })}
+              onChangeText={(val) => this.setState({ name: val })}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="Enter email "
-              onChangeText={(val) => this.setState({ password: val })}
+              onChangeText={(val) => this.setState({ email: val })}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="Phone number"
-              onChangeText={(val) => this.setState({ confrmPwd: val })}
+              onChangeText={(val) => this.setState({ mob: val })}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="PAN number"
-              onChangeText={(val) => this.setState({ email: val })}
+              onChangeText={(val) => this.setState({ panNum: val })}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="Adhar card number"
-              onChangeText={(val) => this.setState({ password: val })}
+              onChangeText={(val) => this.setState({ aadharNum: val })}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="Education qualification"
-              onChangeText={(val) => this.setState({ email: val })}
+              onChangeText={(val) => this.setState({ eduQual: val })}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="current location"
-              onChangeText={(val) => this.setState({ confrmPwd: val })}
+              onChangeText={(val) => this.setState({ currentLocation: val })}
             />
 
             <Picker
@@ -217,7 +218,6 @@ class UserDetails extends Component {
               }}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({
-                  ...this.state.selectedUserType,
                   selectedUserType: itemValue,
                 })
               }
