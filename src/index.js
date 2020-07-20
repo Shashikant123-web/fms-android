@@ -14,6 +14,7 @@ import ChangePwd from "../screens/changePwd";
 import Home from "../screens/dashboard/DrawerNavigation";
 import Help from "../screens/dashboard/Help";
 import axios from "axios";
+import uploadDocument from "../screens/uploadDocument";
 
 axios.defaults.baseURL = "http://stskfacilities.com:8081/stskFmsApi";
 
@@ -29,6 +30,8 @@ class Index extends React.Component {
           <Stack.Screen name="preRegister" component={Preregisteration} />
           <Stack.Screen name="user registration" component={Register} />
           <Stack.Screen name="details" component={UserDetails} />
+          <Stack.Screen name="upload document" component={uploadDocument} />
+
           <Stack.Screen name="user login" component={UserLogin} />
           <Stack.Screen name="forgot password" component={ForgotPwd} />
           <Stack.Screen name="change password" component={ChangePwd} />

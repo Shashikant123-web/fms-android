@@ -13,6 +13,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 class Home extends Component {
   state = {};
   render() {
+    console.log(this.props.dashboard);
+    console.log(this.props);
     const {
       mobileNumber,
       userId,

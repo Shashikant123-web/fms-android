@@ -12,6 +12,11 @@ import { globalStyles } from "../styles/global";
 import backReverse from "../assets/backRev.png";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
+import axios from "axios";
+
+const header = {
+  "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
+};
 
 class Register extends Component {
   state = {
@@ -36,9 +41,9 @@ class Register extends Component {
     }
   };
   handleNext = () => {
-    const { password, confrmPwd, email } = this.state;
+    const { password, confrmPwd, email, mob, id } = this.state;
     console.log(this.state);
-    // this.props.navigation.navigate("details");
+    this.props.navigation.navigate("details");
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(email) === false) {
       this.setState({ error: "Email is Not Correct" });
@@ -54,19 +59,27 @@ class Register extends Component {
         this.setState({ error: "" });
         axios
           .post(
-            "/stskFmsApi/userLogin/createUL",
+            "/userLogin/createUL",
             {
-              mob: this.state.mob,
-              email: this.state.email,
-              password: this.state.password,
+              mob,
+              email,
+              password,
               userRoles: {
-                id: this.state.userRoles.id,
+                id,
               },
             },
             { headers: header }
           )
-          .then((response) => {
-            this.props.navigation.navigate("details");
+          .then((res) => {
+            console.log(res);
+            console.log(res.data.success);
+            if (res.data.success === 1) {
+              this.props.navigation.navigate("details");
+            } else {
+              this.setState({
+                error: "Email or mob number already exists, try again..!",
+              });
+            }
           })
           .catch((error) => {
             console.log(error);

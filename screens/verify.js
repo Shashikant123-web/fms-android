@@ -5,7 +5,10 @@ import back from "../assets/back.png";
 import { globalStyles } from "../styles/global";
 import { connect } from "react-redux";
 import { userLoginAction } from "../Redux/Actions/UserLoginAction";
-
+import axios from "axios";
+const header = {
+  "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
+};
 class Verify extends Component {
   state = {
     countryCode: this.props.sendOtp.countryCode,
@@ -18,7 +21,113 @@ class Verify extends Component {
     loading: false,
   };
   handleVerify = () => {
-    this.props.navigation.navigate("preRegister");
+    this.setState({
+      error: "",
+      loading: true,
+    });
+
+    axios
+      .get("/userLogin/getByMob/" + this.state.mobileNumber, {
+        headers: header,
+      })
+      .then((Response) => {
+        console.log(Response.data);
+        console.log(Response.data);
+
+        if (Response.data.success === 1) {
+          axios
+            .get("/jobseeker/getByMob/" + this.state.mobileNumber, {
+              headers: header,
+            })
+            .then((res) => {
+              console.log(res.data);
+
+              if (res.data.success === 1) {
+                this.setState({
+                  userId: res.data.data.id,
+                  details: res.data.data,
+                });
+                const time = setTimeout(() => {
+                  this.props.userLoginAction(this.state);
+                  this.props.navigation.navigate("home");
+                }, 50);
+              } else {
+                this.props.userLoginAction(this.state);
+                this.props.navigation.navigate("details");
+              }
+            });
+        } else {
+          this.props.userLoginAction(this.state);
+          this.props.navigation.navigate("preRegister");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(this.props.number);
+      });
+
+    // axios
+    //   .post(
+    //     "/otpServices/verifyOtpBySMS",
+    //     {
+    //       countryCode: 91,
+    //       mobileNumber: this.state.mobileNumber,
+    //       otp_input: this.state.otp,
+    //     },
+    //     { headers: header }
+    //   )
+    //   .then((Response) => {
+    //     console.log(Response);
+    //     console.log(Response.data);
+
+    //     if (Response.data.type === "success") {
+    //   axios
+    //   .get("/userLogin/getByMob/" + this.state.mobileNumber, {
+    //     headers: header,
+    //   })
+    //   .then((Response) => {
+    //     console.log(Response.data);
+    //     console.log(Response.data);
+
+    //     if (Response.data.success === 1) {
+    //       axios
+    //         .get("/jobseeker/getByMob/" + this.state.mobileNumber, {
+    //           headers: header,
+    //         })
+    //         .then((res) => {
+    //           console.log(res.data);
+
+    //           if (res.data.success === 1) {
+    //             this.setState({
+    //               userId: res.data.data.id,
+    //               details: res.data.data,
+    //             });
+    //             const time = setTimeout(() => {
+    //               this.props.userLoginAction(this.state);
+    //               this.props.navigation.navigate("home");
+    //             }, 50);
+    //           } else {
+    //             this.props.userLoginAction(this.state);
+    //             this.props.navigation.navigate("details");
+    //           }
+    //         });
+    //     } else {
+    //       this.props.userLoginAction(this.state);
+    //       this.props.navigation.navigate("preRegister");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     console.log(this.props.number);
+    //   });
+    //     } else {
+    //       this.setState({
+    //         loading: false,
+    //         otp: "",
+    //         error: "Otp-mismatch",
+    //       });
+    //     }
+    //   });
   };
   render() {
     console.log(this.state);

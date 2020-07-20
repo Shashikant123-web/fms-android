@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { globalStyles } from "../styles/global";
 import { MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import * as DocumentPicker from "expo-document-picker";
 // import Button from "react-native-button";
 import google from "../assets/google.png";
 import facebook from "../assets/fb.png";
@@ -61,11 +62,23 @@ class SendOtp extends Component {
       >
         <View style={globalStyles.container}>
           <ImageBackground style={globalStyles.image} source={back}>
-            <View style={globalStyles.center}>
+            <View style={[globalStyles.center, { top: 10 }]}>
+              <Text
+                style={[
+                  {
+                    color: "teal",
+                    fontWeight: "bold",
+                    fontSize: 40,
+                    bottom: 100,
+                  },
+                ]}
+              >
+                Login
+              </Text>
               <TextInput
-                style={globalStyles.textInput}
-                Keyboard="numeric"
+                style={[globalStyles.textInput]}
                 placeholder="Enter mobile number"
+                keyboardType="numeric"
                 value={this.state.mobileNumber}
                 onChangeText={(val) => this.setState({ mobileNumber: val })}
               />

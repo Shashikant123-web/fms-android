@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 
 import * as Permissions from "expo-permissions";
 
-const header = {
+const headers = {
   "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
 };
 
@@ -33,18 +33,19 @@ class UserDetails extends Component {
     radio2: false,
     image: null,
     jobTypes: [],
-    selectedUserType: "",
+    selectedUserType: 1,
     name: "",
     email: "",
-    mob: "",
+    mob: this.props.details.mobileNumber,
+    mobileNumber: this.props.details.mobileNumber,
     panNum: "",
     aadharNum: "",
     eduQual: "",
-    experience: "",
-    working: "",
-    jobUpdate: "",
-    address: "",
-    fresher: "",
+    experience: false,
+    working: false,
+    jobUpdate: "SMS",
+    address: "Bengalore",
+    fresher: true,
     prevcompanyName: "fresher",
     prevdesignation: "fresher",
     prevjobLocation: "fresher",
@@ -56,9 +57,7 @@ class UserDetails extends Component {
     negotiable: "",
     upTo: "",
     jobLocation: "",
-    userLogin: {
-      id: "",
-    },
+    userLoginId: "",
     Updates: ["Send Mail", "SMS", "Both", "None"],
   };
 
@@ -76,17 +75,17 @@ class UserDetails extends Component {
 
     axios
       .get("/userLogin/getByMob/" + this.props.details.mobileNumber, {
-        headers: header,
+        headers,
       })
       .then((res) => {
         console.log(res.data);
         this.setState({
-          userId: res.data.data.id,
+          userLoginID: res.data.data.id,
           email: res.data.data.email,
         });
       });
 
-    axios.get("/jobTypes/getAllJobTypes", { headers: header }).then((res) => {
+    axios.get("/jobTypes/getAllJobTypes", { headers }).then((res) => {
       console.log(res.data);
       console.log(res.data.data);
       this.setState({
@@ -97,29 +96,82 @@ class UserDetails extends Component {
   handleImage = () => {};
   handleSubmit = () => {
     console.log(this.state);
-    //   axios
-    //     .post(
-    //       "/stskFmsApi/userLogin/createUL",
-    //       {
-    //         mob: this.state.mob,
-    //         email: this.state.email,
-    //         password: this.state.password,
-    //         userRoles: {
-    //           id: this.state.userRoles.id,
-    //         },
-    //       },
-    //       { headers: header }
-    //     )
-    //     .then((response) => {
-    //       console.log(response);
-    //       console.log(this.state);
-    //       this.props.history.push({
-    //         pathname: "/userDetails",
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
+    const {
+      name,
+      email,
+      mob,
+      panNum,
+      aadharNum,
+      eduQual,
+      experience,
+      working,
+      jobUpdate,
+      address,
+      fresher,
+      companyName,
+      noOfDays,
+      noticePeriod,
+      designation,
+      jobLocation,
+      currentLocation,
+      upTo,
+      negotiable,
+      selectedUserType,
+    } = this.state;
+    console.log(
+      name,
+      email,
+      mob,
+      panNum,
+      aadharNum,
+      eduQual,
+      working,
+      jobUpdate,
+      address,
+      fresher,
+      currentLocation,
+      this.state.userLoginID,
+      selectedUserType
+    );
+    axios
+      .post(
+        "/stskFmsApi/jobseeker/createJS",
+        {
+          name,
+          email,
+          mob,
+          panNum,
+          aadharNum,
+          eduQual,
+          working,
+          jobUpdate,
+          address,
+          fresher,
+          currentLocation,
+          userLogin: {
+            id: this.state.userLoginID,
+          },
+          jobTypes: {
+            id: selectedUserType,
+          },
+        },
+        {
+          headers,
+        }
+      )
+
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success === 1) {
+          console.log(response);
+          console.log(response.data);
+
+          this.props.navigation.navigate("upload document");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   _pickImage = async () => {
     try {
@@ -189,14 +241,12 @@ class UserDetails extends Component {
             <TextInput
               style={globalStyles.textInput}
               placeholder="Enter email "
-              onChangeText={(val) => this.setState({ email: val })}
               value={email}
             />
             <TextInput
               style={globalStyles.textInput}
               placeholder="Phone number"
               keyboardType="numeric"
-              onChangeText={(val) => this.setState({ mob: val })}
               value={mobileNumber}
             />
             <TextInput

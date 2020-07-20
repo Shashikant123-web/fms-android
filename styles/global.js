@@ -30,8 +30,8 @@ export const globalStyles = StyleSheet.create({
   button: {
     elevation: 8,
     backgroundColor: "#009688",
-    borderRadius: 20,
-    paddingVertical: 10,
+    borderRadius: 30,
+    paddingVertical: 15,
     paddingHorizontal: 12,
     width: "80%",
   },
