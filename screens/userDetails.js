@@ -130,12 +130,11 @@ class UserDetails extends Component {
       address,
       fresher,
       currentLocation,
-      this.state.userLoginID,
       selectedUserType
     );
     axios
       .post(
-        "/stskFmsApi/jobseeker/createJS",
+        "/jobseeker/createJS",
         {
           name,
           email,
@@ -159,13 +158,11 @@ class UserDetails extends Component {
           headers,
         }
       )
-
       .then((response) => {
         console.log(response.data);
         if (response.data.success === 1) {
           console.log(response);
           console.log(response.data);
-
           this.props.navigation.navigate("upload document");
         }
       })
