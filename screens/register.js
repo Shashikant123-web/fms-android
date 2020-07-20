@@ -43,7 +43,6 @@ class Register extends Component {
   handleNext = () => {
     const { password, confrmPwd, email, mob, id } = this.state;
     console.log(this.state);
-    this.props.navigation.navigate("details");
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(email) === false) {
       this.setState({ error: "Email is Not Correct" });

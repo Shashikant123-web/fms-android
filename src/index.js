@@ -15,6 +15,7 @@ import Home from "../screens/dashboard/DrawerNavigation";
 import Help from "../screens/dashboard/Help";
 import axios from "axios";
 import uploadDocument from "../screens/uploadDocument";
+import { Title } from "react-native-paper";
 
 axios.defaults.baseURL = "http://stskfacilities.com:8081/stskFmsApi";
 
@@ -25,9 +26,20 @@ class Index extends React.Component {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="SendOtp" component={SendOtp} />
+          <Stack.Screen
+            options={{ title: "" }}
+            name="SendOtp"
+            component={SendOtp}
+          />
           <Stack.Screen name="verify" component={Verify} />
-          <Stack.Screen name="preRegister" component={Preregisteration} />
+          <Stack.Screen
+            options={{
+              title: "choose your catagory",
+              headerTitleAlign: "center",
+            }}
+            name="preRegister"
+            component={Preregisteration}
+          />
           <Stack.Screen name="user registration" component={Register} />
           <Stack.Screen name="details" component={UserDetails} />
           <Stack.Screen name="upload document" component={uploadDocument} />

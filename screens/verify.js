@@ -25,47 +25,49 @@ class Verify extends Component {
       error: "",
       loading: true,
     });
+    this.props.navigation.navigate("preRegister");
+    //without otp verification
+    // axios
+    //   .get("/userLogin/getByMob/" + this.state.mobileNumber, {
+    //     headers: header,
+    //   })
+    //   .then((Response) => {
+    //     console.log(Response.data);
+    //     console.log(Response.data);
 
-    axios
-      .get("/userLogin/getByMob/" + this.state.mobileNumber, {
-        headers: header,
-      })
-      .then((Response) => {
-        console.log(Response.data);
-        console.log(Response.data);
+    //     if (Response.data.success === 1) {
+    //       axios
+    //         .get("/jobseeker/getByMob/" + this.state.mobileNumber, {
+    //           headers: header,
+    //         })
+    //         .then((res) => {
+    //           console.log(res.data);
 
-        if (Response.data.success === 1) {
-          axios
-            .get("/jobseeker/getByMob/" + this.state.mobileNumber, {
-              headers: header,
-            })
-            .then((res) => {
-              console.log(res.data);
+    //           if (res.data.success === 1) {
+    //             this.setState({
+    //               userId: res.data.data.id,
+    //               details: res.data.data,
+    //             });
+    //             const time = setTimeout(() => {
+    //               this.props.userLoginAction(this.state);
+    //               this.props.navigation.navigate("home");
+    //             }, 50);
+    //           } else {
+    //             this.props.userLoginAction(this.state);
+    //             this.props.navigation.navigate("details");
+    //           }
+    //         });
+    //     } else {
+    //       this.props.userLoginAction(this.state);
+    //       this.props.navigation.navigate("preRegister");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     console.log(this.props.number);
+    //   });
 
-              if (res.data.success === 1) {
-                this.setState({
-                  userId: res.data.data.id,
-                  details: res.data.data,
-                });
-                const time = setTimeout(() => {
-                  this.props.userLoginAction(this.state);
-                  this.props.navigation.navigate("home");
-                }, 50);
-              } else {
-                this.props.userLoginAction(this.state);
-                this.props.navigation.navigate("details");
-              }
-            });
-        } else {
-          this.props.userLoginAction(this.state);
-          this.props.navigation.navigate("preRegister");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log(this.props.number);
-      });
-
+    //real one
     // axios
     //   .post(
     //     "/otpServices/verifyOtpBySMS",

@@ -37,13 +37,16 @@ export const globalStyles = StyleSheet.create({
   },
   preregister: {
     backgroundColor: "#F0FFFF",
+    width: "50%",
     borderRadius: 20,
     margin: 10,
-    paddingHorizontal: 40,
+    width: "60%",
     color: "teal",
     fontWeight: "bold",
     fontSize: 20,
     textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
     fontSize: 18,

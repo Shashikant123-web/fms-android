@@ -5,10 +5,14 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  View,
 } from "react-native";
 import backRev from "../assets/backRev.png";
 import { globalStyles } from "../styles/global";
 import jobseeker from "../assets/jobseeker2.png";
+import association from "../assets/association2.png";
+import resident from "../assets/resident2.png";
+import vendor from "../assets/vendor2.png";
 import axios from "axios";
 
 const header = {
@@ -18,16 +22,24 @@ const header = {
 class Preregisteration extends Component {
   state = {
     userRoless: [],
-    mobileNumber: "",
+    Jobseeker: {
+      id: 1,
+      name: "Job seeker",
+    },
+    Association: {
+      id: 2,
+      name: "Association",
+    },
+    Resident: {
+      id: 3,
+      name: "Resident",
+    },
+    Vendor: {
+      id: 4,
+      name: "Vendor",
+    },
   };
-  componentDidMount() {
-    axios.get("/userRoles/getAllUserRoles", { headers: header }).then((res) => {
-      console.log(res.data.data);
-      this.setState({
-        userRoless: res.data.data,
-      });
-    });
-  }
+
   render() {
     const { userRoless } = this.state;
     const user =
@@ -41,27 +53,66 @@ class Preregisteration extends Component {
       });
     return (
       <ImageBackground style={globalStyles.container} source={backRev}>
-        <FlatList
-          style={{ marginTop: "10%", flexDirection: "row" }}
-          data={userRoless}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[
-                globalStyles.preregister,
-                { flexDirection: "row", padding: 25 },
-              ]}
-              onPress={() =>
-                this.props.navigation.navigate(
-                  "user registration",
-                  item,
-                  this.state
-                )
-              }
-            >
-              <Text style={globalStyles.preregister}>{item.name}</Text>
-            </TouchableOpacity>
-          )}
-        />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate(
+              "user registration",
+              this.state.Jobseeker
+            )
+          }
+          style={[
+            globalStyles.preregister,
+            { flexDirection: "row", padding: 15, height: 110, width: "80%" },
+          ]}
+        >
+          <Image style={{ width: 90, height: 90 }} source={jobseeker} />
+          <Text style={globalStyles.preregister}>Jobseeker</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate(
+              "user registration",
+              this.state.Association
+            )
+          }
+          style={[
+            globalStyles.preregister,
+            { flexDirection: "row", padding: 15, height: 110, width: "80%" },
+          ]}
+        >
+          <Image style={{ width: 90, height: 90 }} source={association} />
+          <Text style={globalStyles.preregister}>Association</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate(
+              "user registration",
+              this.state.Resident
+            )
+          }
+          style={[
+            globalStyles.preregister,
+            { flexDirection: "row", padding: 15, height: 110, width: "80%" },
+          ]}
+        >
+          <Image style={{ width: 90, height: 90 }} source={resident} />
+          <Text style={globalStyles.preregister}>Resident</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate(
+              "user registration",
+              this.state.Vendor
+            )
+          }
+          style={[
+            globalStyles.preregister,
+            { flexDirection: "row", padding: 15, height: 110, width: "80%" },
+          ]}
+        >
+          <Image style={{ width: 90, height: 90 }} source={vendor} />
+          <Text style={globalStyles.preregister}>Vendor</Text>
+        </TouchableOpacity>
       </ImageBackground>
     );
   }
