@@ -21,6 +21,7 @@ import {
 import back from "../assets/back.png";
 import { connect } from "react-redux";
 import { SEND_OTP } from "../Redux/ActionTypes/actionTypes";
+import { ScrollView } from "react-native-gesture-handler";
 
 const header = {
   "x-api-key": " $2a$10$AIUufK8g6EFhBcumRRV2L.AQNz3Bjp7oDQVFiO5JJMBFZQ6x2/R/2",
@@ -69,7 +70,7 @@ class SendOtp extends Component {
                     color: "teal",
                     fontWeight: "bold",
                     fontSize: 40,
-                    bottom: 100,
+                    bottom: 80,
                   },
                 ]}
               >
@@ -115,11 +116,11 @@ class SendOtp extends Component {
                 }}
               >
                 <TouchableOpacity onPress={() => {}}>
-                  <Image source={facebook} style={{ width: 40, height: 40 }} />
+                  <Image source={facebook} style={{ width: 42, height: 42 }} />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => {}}>
-                  <Image source={google} style={{ width: 40, height: 40 }} />
+                  <Image source={google} style={{ width: 42, height: 42 }} />
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -127,7 +128,7 @@ class SendOtp extends Component {
                     this.props.navigation.navigate("user login");
                   }}
                 >
-                  <FontAwesome5 name="user-alt" size={37} color="white" />
+                  <FontAwesome5 name="user-alt" size={35} color="white" />
                 </TouchableOpacity>
               </View>
             </View>

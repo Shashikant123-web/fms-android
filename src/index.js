@@ -31,10 +31,9 @@ class Index extends React.Component {
           <Stack.Screen name="user registration" component={Register} />
           <Stack.Screen name="details" component={UserDetails} />
           <Stack.Screen name="upload document" component={uploadDocument} />
-
+          <Stack.Screen name="change password" component={ChangePwd} />
           <Stack.Screen name="user login" component={UserLogin} />
           <Stack.Screen name="forgot password" component={ForgotPwd} />
-          <Stack.Screen name="change password" component={ChangePwd} />
           <Stack.Screen
             options={{ headerShown: false }}
             name="home"

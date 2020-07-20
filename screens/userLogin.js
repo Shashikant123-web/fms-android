@@ -53,6 +53,7 @@ class UserLogin extends Component {
     console.log(this.state);
     this.setState({
       loading: true,
+      error: "",
     });
     // this.props.navigation.navigate("home");
     axios

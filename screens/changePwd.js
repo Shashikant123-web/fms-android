@@ -15,78 +15,56 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 class ChangePwd extends Component {
   state = {
-    email: "",
+    mob: this.props.route.params,
     password: "",
     confrmPwd: "",
     error: "",
-    emailStatus: false,
     eye1: false,
     eye2: false,
     loading: false,
   };
-  validate = (text) => {
-    console.log(text);
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(text) === false) {
-      this.setState({ email: text, error: "Email is Not Correct" });
-      return false;
-    } else {
-      this.setState({ email: text, error: "", emailStatus: true });
-    }
-  };
   handleSave = () => {
-    const { password, confrmPwd, emailStatus, email } = this.state;
-
-    this.setState({
-      loading: true,
-    });
-    // if (
-    //   emailStatus === true &&
-    //   password.length !== 0 &&
-    //   confrmPwd.length !== 0 &&
-    //   email.length !== 0
-    // ) {
-    //   if (password !== confrmPwd) {
-    //     this.setState({
-    //       password: "",
-    //       confrmPwd: "",
-    //       error: "Password and conformPassword mis-match",
-    //     });
-    //   } else {
-    //     this.setState({ error: "" });
-
-    //   axios
-    //     .post(
-    //       "/stskFmsApi/userLogin/createUL",
-    //       {
-    //         mob: this.state.mob,
-    //         email: this.state.email,
-    //         password: this.state.password,
-    //         userRoles: {
-    //           id: this.state.userRoles.id,
-    //         },
-    //       },
-    //       { headers: header }
-    //     )
-    //     .then((response) => {
-    //       console.log(response);
-    //       console.log(this.state);
-    //       this.props.history.push({
-    //         pathname: "/userDetails",
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    //   }
-    // } else {
-    //   this.setState({
-    //     error: "Email required",
-    //   });
-    //}
+    const { password, confrmPwd, mob } = this.state;
+    if (password.length !== 0 && confrmPwd.length !== 0) {
+      if (password !== confrmPwd) {
+        this.setState({
+          password: "",
+          confrmPwd: "",
+          error: "Password and conformPassword mis-match",
+        });
+      } else {
+        this.setState({ error: "" });
+        axios
+          .put(
+            "/stskFmsApi/userLogin/resetpassword",
+            {
+              countryCode: 91,
+              mob,
+              password,
+            },
+            { headers }
+          )
+          .then((Response) => {
+            if (Response.data.success === 1) {
+              this.props.navigation.navigate("user login");
+            } else
+              this.setState({
+                error: "Please Try again...",
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    } else {
+      this.setState({
+        error: "data required",
+      });
+    }
   };
   render() {
     const { eye1, eye2, loading } = this.state;
+    console.log(this.props.route.params);
     return (
       <TouchableWithoutFeedback
         onPress={() => {
